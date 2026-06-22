@@ -2,7 +2,7 @@
 
 // ВАЖНО: после деплоя backend на Render, вставь сюда его реальный адрес
 // Пример: 'https://movie-catalog-backend.onrender.com'
-const API_URL = 'https://ВАШ-БЭКЕНД.onrender.com/api';
+const API_URL = 'https://movie-catalog-backend-izsl.onrender.com/api';
 
 let state = {
   type: '',
