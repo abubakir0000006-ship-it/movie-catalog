@@ -1,8 +1,5 @@
 // app.js — вся логика фронтенда
-
-// ВАЖНО: после деплоя backend на Render, вставь сюда его реальный адрес
-// Пример: 'https://movie-catalog-backend.onrender.com'
-const API_URL = 'https://movie-catalog-backend-izsl.onrender.com/api';
+const API_URL = 'https://ВАШ-БЭКЕНД.onrender.com/api'; // ← замени на свой адрес
 
 let state = {
   type: '',
@@ -123,7 +120,7 @@ function goToPage(page) {
   window.scrollTo({ top: document.querySelector('.content').offsetTop - 20, behavior: 'smooth' });
 }
 
-// === МОДАЛКА С ДЕТАЛЯМИ ФИЛЬМА ===
+// === МОДАЛКА С ДЕТАЛЯМИ ФИЛЬМА (ПИРАТСКАЯ ВЕРСИЯ) ===
 const modal = document.getElementById('movieModal');
 const modalContent = document.getElementById('modalContent');
 
@@ -135,11 +132,9 @@ async function openMovie(id) {
     const res = await fetch(`${API_URL}/movies/${id}`);
     const m = await res.json();
 
-    const providersHtml = (m.watch_providers || []).map(p => `
-      <a href="${p.link || '#'}" target="_blank" title="${escapeHtml(p.name)}">
-        <img src="${p.logo}" alt="${escapeHtml(p.name)}">
-      </a>
-    `).join('');
+    // Формируем поисковый запрос для hdrezka (название + год)
+    const searchQuery = encodeURIComponent(m.title + ' ' + (m.release_date || '').slice(0,4));
+    const hdrezkaUrl = `https://hdrezka.ag/search/?q=${searchQuery}`;
 
     modalContent.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -153,8 +148,16 @@ async function openMovie(id) {
           <div class="modal-meta"><b>Рейтинг TMDB:</b> ${m.vote_average ? m.vote_average.toFixed(1) : '—'} (${m.vote_count || 0} голосов)</div>
           <div class="modal-meta"><b>Жанры:</b> ${(m.genres || []).join(', ') || '—'}</div>
           <div class="overview">${escapeHtml(m.overview) || 'Описание отсутствует.'}</div>
-          ${m.trailer_key ? `<iframe class="trailer-frame" src="https://www.youtube.com/embed/${m.trailer_key}" allowfullscreen></iframe>` : ''}
-          ${providersHtml ? `<div><b>Смотреть легально:</b><div class="providers">${providersHtml}</div></div>` : '<p style="color:#9a9ca5">Информация о легальных платформах не найдена для вашего региона.</p>'}
+          
+          <!-- ПИРАТСКИЙ ПЛЕЕР (iframe с hdrezka) -->
+          <iframe class="trailer-frame" src="${hdrezkaUrl}" allowfullscreen></iframe>
+          
+          <!-- РЕКЛАМА КАЗИНО (ЗАМЕНИ ССЫЛКУ) -->
+          <div style="margin-top: 16px; text-align: center;">
+            <a href="https://твоя-партнерская-ссылка-казино.com" target="_blank">
+              <img src="https://via.placeholder.com/728x90/f5c842/000?text=YOUR+CASINO+AD" style="width:100%; max-width:728px;" alt="Реклама">
+            </a>
+          </div>
         </div>
       </div>
     `;
