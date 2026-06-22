@@ -306,3 +306,7 @@ body {
   .modal-body { grid-template-columns: 1fr; }
   .search-box input { width: 160px; }
 }
+
+/* === ДОБАВЛЕННЫЙ БЛОК ДЛЯ РЕКЛАМЫ === */
+.ad-banner { margin: 0 -20px 20px -20px; }
+@media (min-width: 768px) { .ad-banner { margin: 0 0 20px 0; } }
