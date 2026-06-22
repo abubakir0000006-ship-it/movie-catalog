@@ -91,6 +91,13 @@ app.post('/api/sync', async (req, res) => {
   }
 });
 
+// === ПРОКСИ ДЛЯ ОБХОДА БЛОКИРОВОК (добавленный эндпоинт) ===
+app.get('/proxy', (req, res) => {
+  const url = req.query.url;
+  if (!url) return res.status(400).send('Missing url');
+  res.redirect(url);
+});
+
 function formatMovie(row) {
   return {
     ...row,
