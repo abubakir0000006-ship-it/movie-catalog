@@ -1,5 +1,5 @@
 // app.js — вся логика фронтенда
-const API_URL = 'https://ВАШ-БЭКЕНД.onrender.com/api'; // ← замени на свой адрес
+const API_URL = 'https://movie-catalog-backend-izsl.onrender.com/api';
 
 let state = {
   type: '',
@@ -134,7 +134,7 @@ async function openMovie(id) {
 
     // Формируем поисковый запрос для hdrezka (название + год)
     const searchQuery = encodeURIComponent(m.title + ' ' + (m.release_date || '').slice(0,4));
-    const hdrezkaUrl = `https://hdrezka.ag/search/?q=${searchQuery}`;
+    const hdrezkaUrl = `https://hdrezka.ag/search/?q=${searchQuery}`; // ← замени зеркало, если нужно
 
     modalContent.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
